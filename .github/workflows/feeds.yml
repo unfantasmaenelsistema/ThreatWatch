@@ -1,0 +1,60 @@
+name: Actualizar feeds
+
+# Descarga cada hora las fuentes que el navegador no puede leer (CORS) y las
+# publica en la rama `data`, que la web lee desde raw.githubusercontent.com.
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: feeds
+  cancel-in-progress: false
+
+jobs:
+  feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Recuperar los datos de la última ejecución
+        run: |
+          mkdir -p out
+          if git fetch --depth 1 origin data; then git archive FETCH_HEAD | tar -x -C out; fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Descargar fuentes
+        run: python scripts/fetch_feeds.py out
+
+      - name: Publicar en la rama data
+        run: |
+          cd out
+          cat > README.md <<'EOF'
+          # Datos de ThreatWatch
+          Rama generada cada hora por `.github/workflows/feeds.yml` a partir de CISA KEV, NIST NVD,
+          URLhaus y Feodo Tracker (abuse.ch), ransomware.live y varios RSS. Se reescribe en cada
+          ejecución (un solo commit) para que el repositorio no crezca. No editar a mano.
+          EOF
+          git init -q -b data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Feeds $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      # GitHub desactiva las tareas programadas de un repo público tras 60 días
+      # sin actividad; volver a habilitarla reinicia ese plazo.
+      - name: Mantener activa la programación
+        run: gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/feeds.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}

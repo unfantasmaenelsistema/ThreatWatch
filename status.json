@@ -1,0 +1,35 @@
+{
+ "feeds": {
+  "kev": {
+   "ok": true,
+   "updated": "2026-10-17T19:31:25Z",
+   "count": 1748
+  },
+  "nvd": {
+   "ok": true,
+   "updated": "2026-10-17T19:32:34Z",
+   "count": 14351
+  },
+  "urlhaus": {
+   "ok": true,
+   "updated": "2026-10-17T19:32:35Z",
+   "count": 33584
+  },
+  "feodo": {
+   "ok": true,
+   "updated": "2026-10-17T19:32:35Z",
+   "count": 5
+  },
+  "ransomware": {
+   "ok": true,
+   "updated": "2026-10-17T19:32:36Z",
+   "count": 100
+  },
+  "news": {
+   "ok": true,
+   "updated": "2026-10-17T19:32:57Z",
+   "count": 75
+  }
+ },
+ "updated": "2026-10-17T19:32:57Z"
+}

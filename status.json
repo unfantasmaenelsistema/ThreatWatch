@@ -1,0 +1,37 @@
+{
+ "feeds": {
+  "kev": {
+   "ok": true,
+   "updated": "2026-10-24T14:39:31Z",
+   "count": 1756
+  },
+  "nvd": {
+   "ok": true,
+   "updated": "2026-10-24T14:40:56Z",
+   "count": 16682
+  },
+  "urlhaus": {
+   "ok": false,
+   "updated": "2026-10-21T02:02:22Z",
+   "count": 33674,
+   "error": "HTTPError: HTTP Error 410: Gone",
+   "tried": "2026-10-24T14:40:57Z"
+  },
+  "feodo": {
+   "ok": true,
+   "updated": "2026-10-24T14:40:57Z",
+   "count": 5
+  },
+  "ransomware": {
+   "ok": true,
+   "updated": "2026-10-24T14:40:58Z",
+   "count": 100
+  },
+  "news": {
+   "ok": true,
+   "updated": "2026-10-24T14:41:02Z",
+   "count": 75
+  }
+ },
+ "updated": "2026-10-24T14:41:02Z"
+}
